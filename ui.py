@@ -25,11 +25,11 @@ class QuizInterface:
         self.canvas.grid(row=1, column=0, columnspan=2, pady=50)
         
         true_image = PhotoImage(file="C:/Users/jay-5/Documents/code/pythonProj/100daysOfPy/quizAPP/images/true.png")
-        self.true_button = Button(image=true_image, highlightthickness=0)
+        self.true_button = Button(image=true_image, highlightthickness=0, command=self.true_checker)
         self.true_button.grid(row=2, column=0)
         
         false_image = PhotoImage(file="C:/Users/jay-5/Documents/code/pythonProj/100daysOfPy/quizAPP/images/false.png")
-        self.false_button = Button(image=false_image, highlightthickness=0)
+        self.false_button = Button(image=false_image, highlightthickness=0, command=self.false_checker)
         self.false_button.grid(row=2, column=1)
         
         self.get_next_question()
@@ -41,3 +41,8 @@ class QuizInterface:
         question_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=question_text)
 
+    def true_checker(self):
+        self.quiz.check_answer("True")
+    
+    def false_checker(self):
+        self.quiz.check_answer("False")
