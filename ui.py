@@ -24,11 +24,11 @@ class QuizInterface:
             )
         self.canvas.grid(row=1, column=0, columnspan=2, pady=50)
         
-        true_image = PhotoImage(file="C:/Users/jay-5/Documents/code/pythonProj/100daysOfPy/quizAPP/images/true.png")
+        true_image = PhotoImage(file="trueButton/path")
         self.true_button = Button(image=true_image, highlightthickness=0, command=self.true_checker)
         self.true_button.grid(row=2, column=0)
         
-        false_image = PhotoImage(file="C:/Users/jay-5/Documents/code/pythonProj/100daysOfPy/quizAPP/images/false.png")
+        false_image = PhotoImage(file="falseButton/path")
         self.false_button = Button(image=false_image, highlightthickness=0, command=self.false_checker)
         self.false_button.grid(row=2, column=1)
         
@@ -39,9 +39,15 @@ class QuizInterface:
         
     def get_next_question(self):
         self.canvas.config(bg="white")
-        question_text = self.quiz.next_question()
-        self.canvas.itemconfig(self.question_text, text=question_text)
-
+        if self.quiz.still_has_questions():
+            self.score_label.config(text=f"Score: {self.quiz.score}")
+            question_text = self.quiz.next_question()
+            self.canvas.itemconfig(self.question_text, text=question_text)
+        else:
+            self.canvas.itemconfig(self.question_text, text="You're out of questions!")
+            self.true_checker.config(state="disabled")
+            self.false_checker.config(state="disabled")
+            
     def true_checker(self):
         is_right = self.quiz.check_answer("True")
         self.give_feedback(is_right)
