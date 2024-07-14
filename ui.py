@@ -38,11 +38,21 @@ class QuizInterface:
         
         
     def get_next_question(self):
+        self.canvas.config(bg="white")
         question_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=question_text)
 
     def true_checker(self):
-        self.quiz.check_answer("True")
+        is_right = self.quiz.check_answer("True")
+        self.give_feedback(is_right)
     
     def false_checker(self):
-        self.quiz.check_answer("False")
+        is_right = self.quiz.check_answer("False")
+        self.give_feedback(is_right)
+        
+    def give_feedback(self, is_right):
+        if is_right:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+        self.window.after(1000, self.get_next_question)
